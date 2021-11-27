@@ -97,8 +97,9 @@ setup(
     # have to be included in MANIFEST.in as well.
     package_data={
         'pyTD': [],
+        'pyTD/auth/_static': ['*']
     },
-    include_package_data=True
+
 
 
 )
