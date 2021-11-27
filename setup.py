@@ -98,6 +98,7 @@ setup(
     package_data={
         'pyTD': [],
     },
+    include_package_data=True
 
 
 )
