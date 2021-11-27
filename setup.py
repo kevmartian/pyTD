@@ -99,6 +99,7 @@ setup(
         'pyTD': [],
         'auth/_static': ['*']
     },
+    include_package_data = True
 
 
 
