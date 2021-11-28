@@ -25,6 +25,7 @@ import logging
 from pyTD import BASE_URL
 from pyTD.api import default_api
 from pyTD.utils.exceptions import TDQueryError
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -53,9 +54,47 @@ class Resource(object):
     @property
     def headers(self):
         return {
+            "Accept": "application/json",
             "content-type": "application/json"
         }
 
+    def get(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        response = self.api.request("GET", url=url, params=params)
+
+        # Convert GET requests to python dict in JSON format
+        try:
+            json_data = response.json()
+        except ValueError:
+            raise TDQueryError(message="An error occurred during the query.",
+                               response=response)
+        if "error" in json_data:
+            raise TDQueryError(response=response)
+        return json_data
+
+    def post(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        # j = json.dumps(params)
+        response = self.api.request("POST", url=url, json=params)
+        return response
+
+    def put(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        response = self.api.request("PUT", url=url, json=params)
+        return response
+
+    def delete(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        response = self.api.request("DELETE", url=url, json=params)
+        return response
 
 class Get(Resource):
     """
@@ -67,11 +106,73 @@ class Get(Resource):
 
         response = self.api.request("GET", url=url, params=params)
 
-        # Convert GET requests to JSON
+        # Convert GET requests to python dict in JSON format
         try:
             json_data = response.json()
         except ValueError:
             raise TDQueryError(message="An error occurred during the query.",
+                               response=response)
+        if "error" in json_data:
+            raise TDQueryError(response=response)
+        return json_data
+
+class Post(Resource):
+    """
+    POST requests
+    """
+    def post(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        response = self.api.request("POST", url=url, params=params)
+
+        # Convert POST requests to python dict in JSON format
+        try:
+            json_data = response.json()
+        except ValueError:
+            raise TDQueryError(message="An error occurred during the post.",
+                               response=response)
+        if "error" in json_data:
+            raise TDQueryError(response=response)
+        return json_data
+
+
+class Put(Resource):
+    """
+    PUT requests
+    """
+    def put(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        response = self.api.request("PUT", url=url, params=params)
+
+        # Convert POST requests to python dict in JSON format
+        try:
+            json_data = response.json()
+        except ValueError:
+            raise TDQueryError(message="An error occurred during the post.",
+                               response=response)
+        if "error" in json_data:
+            raise TDQueryError(response=response)
+        return json_data
+
+
+class Delete(Resource):
+    """
+    DELETE requests
+    """
+    def delete(self, url=None, params=None):
+        params = params or self.params
+        url = url or self.url
+
+        response = self.api.request("DELETE", url=url, params=params)
+
+        # Convert POST requests to python dict in JSON format
+        try:
+            json_data = response.json()
+        except ValueError:
+            raise TDQueryError(message="An error occurred during the post.",
                                response=response)
         if "error" in json_data:
             raise TDQueryError(response=response)

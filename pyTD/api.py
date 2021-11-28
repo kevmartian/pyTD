@@ -218,7 +218,7 @@ class api(object):
         for i in range(self.retry_count+1):
             response = self.session.request(method, url, headers=headers,
                                             params=params, **kwargs)
-            if response.status_code == requests.codes.ok:
+            if response.status_code in [200, 201, 204]:
                 return self.handle_response(response)
             time.sleep(self.pause)
 

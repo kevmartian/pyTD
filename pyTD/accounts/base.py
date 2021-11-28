@@ -23,12 +23,12 @@
 import logging
 
 from pyTD.auth import auth_check
-from pyTD.resource import Get
+from pyTD.resource import Resource
 
 logger = logging.getLogger(__name__)
 
 
-class AccountsAndTrading(Get):
+class AccountsAndTrading(Resource):
     """
     Base class for retrieving accounts and orders information. This includes the
     following endpoint groups:

@@ -42,7 +42,8 @@ class Accounts(AccountsAndTrading):
 
     def __init__(self, **kwargs):
         self.account_num = kwargs.pop("account_num", "")
-        # TODO: Make this work on a specific account
+        self._resource = kwargs.pop("resource", "")
+        #for some reason, this isn't working on a specific account
         self.opt = kwargs
         api = kwargs.get("api")
         super(Accounts, self).__init__(api)
@@ -64,11 +65,14 @@ class Accounts(AccountsAndTrading):
 
     @property
     def resource(self):
-        return ''
+        return self._resource
 
     @property
     def url(self):
-        return "%s%s/{}/%s" % (self._BASE_URL, self.endpoint, self.resource)
+        if self.resource:
+            return "%s%s/{}/%s" % (self._BASE_URL, self.endpoint, self.resource)
+        else:
+            return "%s%s/{}" % (self._BASE_URL, self.endpoint)
 
     @auth_check
     def execute(self):

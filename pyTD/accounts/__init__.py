@@ -22,6 +22,7 @@
 
 from pyTD.instruments.base import Instruments
 from pyTD.accounts.accounts import Accounts
+from pyTD.accounts.orders import Orders
 
 def get_accounts(*args, **kwargs):
     """
@@ -36,3 +37,9 @@ def get_accounts(*args, **kwargs):
         pyTD.api.default_api
     """
     return Accounts(*args, **kwargs).execute()
+
+def send_order(*args, **kwargs):
+    return Orders(*args, **kwargs).execute()
+
+def get_open_orders(account_num, *args, **kwargs):
+    return Accounts(account_num=account_num, resource='orders', *args, **kwargs).execute()
