@@ -43,8 +43,8 @@ setup(
     long_description=long_description,
 
     # The project URL.
-    url='https://github.com/addisonlynch/pyTD',
-    download_url='https://github.com/addisonlynch/pyTD/releases',
+    url='https://github.com/kevmartian/pyTD',
+    download_url='https://github.com/kevmartian/pyTD/releases',
 
     # Author details
     author='Addison Lynch',
@@ -97,7 +97,10 @@ setup(
     # have to be included in MANIFEST.in as well.
     package_data={
         'pyTD': [],
+        'auth/_static': ['*']
     },
+    include_package_data = True
+
 
 
 )
