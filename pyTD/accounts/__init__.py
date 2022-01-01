@@ -23,6 +23,8 @@
 from pyTD.instruments.base import Instruments
 from pyTD.accounts.accounts import Accounts
 from pyTD.accounts.orders import Orders
+from pyTD.accounts.watchlists import Watchlists
+
 
 def get_accounts(*args, **kwargs):
     """
@@ -38,8 +40,26 @@ def get_accounts(*args, **kwargs):
     """
     return Accounts(*args, **kwargs).execute()
 
+
 def send_order(*args, **kwargs):
     return Orders(*args, **kwargs).execute()
 
+
 def get_open_orders(account_num, *args, **kwargs):
     return Accounts(account_num=account_num, resource='orders', *args, **kwargs).execute()
+
+
+def get_watchlist(account_num, watchlist_id, *args, **kwargs):
+    return Watchlists(account_num=account_num, watchlist_id=watchlist_id, method="GET", *args, **kwargs).execute()
+
+
+def get_watchlists(account_num=None, *args, **kwargs):
+    return Watchlists(account_num=account_num, method="GET", *args, **kwargs).execute()
+
+
+def create_watchlist(account_num, symbols, asset_type):
+    new_wl = Watchlists(account_num=account_num, method="SET", *args, **kwargs).execute()
+    new_wl.set_list_from_strings(symbols, asset_type)
+    return new_wl.execute()
+
+# def get_watchlist(account_num, list_id, *args, **kwargs):
